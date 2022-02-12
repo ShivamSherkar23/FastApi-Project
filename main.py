@@ -1,7 +1,12 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, status, HTTPException
 import psycopg2
 from psycopg2.extras import DictCursor
+from typing import Optional
+from fastapi.params import Body
+from pydantic import BaseModel    # to define the schema of our data
+from random import randrange
 
+from starlette.responses import Response
 app = FastAPI()
 
 try:
@@ -35,3 +40,26 @@ def get_table_data(cursor):
 def read_root():
     accounts_data = get_table_data(cursor)
     return accounts_data
+
+@app.post("/check_users", status_code=status.HTTP_201_CREATED)
+def put_posts(id):
+    print(id)
+    cursor.execute(f'select * from accounts where id = {id};')
+    result = cursor.fetchall()
+    cursor.close()
+    con.commit()
+    return result
+
+@app.get("/accounts/{id}")
+def get_accounts(id: int):
+
+    cursor.execute(f'select * from accounts where user_id = {id};')
+    result = cursor.fetchall()
+    con.commit()
+    print(result)
+
+    if result == None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"User with id {id} not found in accounts!!")
+    else:
+        return f"{result[0][1]} User with id {id} is present in accounts!!"
