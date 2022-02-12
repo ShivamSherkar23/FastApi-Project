@@ -1,9 +1,8 @@
-from fastapi import Body, FastAPI, status, HTTPException
+from fastapi import FastAPI, status, HTTPException
 import psycopg2
 from psycopg2.extras import DictCursor
 from datetime import datetime
 from pydantic import BaseModel    # to define the schema of our data
-from random import randrange
 from typing import Optional
 
 app = FastAPI()
