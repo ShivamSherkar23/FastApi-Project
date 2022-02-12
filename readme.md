@@ -37,5 +37,14 @@ sudo -u postgres psql
 ### **run the fastapi application**
 uvicorn main:app --reload
 
-### 
+### **to get the modules used and install them**
+- pip freeze > requirements.txt 
+- pip install -r requirements.txt
 
+### **set password for postgres database**
+- ALTER USER user_name WITH PASSWORD 'new_password';
+
+### **installing postgres**
+install psycopg2-binary \
+install psycopg2-binary \
+sudo apt install build-essential
