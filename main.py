@@ -81,3 +81,16 @@ def check_account_exists(id: int):
 														detail=f"User with id {id} not found in accounts!!")
 		else:
 				return f"{result[0][1]} User with id {id} is present in accounts!!"
+
+@app.post("/update_detail",status_code=status.HTTP_201_CREATED)
+def update_account_info(account: Account):
+        
+        query = f""" UPDATE accounts
+                    SET email = '{account.email}',
+                        username = '{account.name}',
+                        password = '{account.password}'
+                    WHERE user_id = {account.id};
+                """
+        cursor.execute(query)
+        con.commit()
+        return {"status": "SUCCESS", "data": f"{account.id} updated with {account.email}"}
