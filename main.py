@@ -95,3 +95,13 @@ def update_account_info(account: Account):
     cursor.execute(query)
     con.commit()
     return {"status": "SUCCESS", "data": f"{account.id} updated with {account.email}"}
+
+@app.delete("/delete_account/{id}", status_code=status.HTTP_200_OK)
+def delete_account(id: int):
+
+    query = f""" DELETE FROM accounts
+                    WHERE user_id = {int(id)};
+                """
+    cursor.execute(query)
+    con.commit()
+    return {"status": "SUCCESS", "data": f"account with id {id} deleted"}
